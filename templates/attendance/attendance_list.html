@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card p-4 shadow">
+
+<h2 class="mb-4">
+    Attendance Records
+</h2>
+
+<table class="table table-bordered">
+
+    <tr>
+        <th>Student</th>
+        <th>Teacher</th>
+        <th>Date</th>
+        <th>Status</th>
+    </tr>
+
+    {% for record in records %}
+
+    <tr>
+
+        <td>{{ record.student.user.username }}</td>
+
+        <td>{{ record.teacher.user.username }}</td>
+
+        <td>{{ record.date }}</td>
+
+        <td>{{ record.status }}</td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+</div>
+
+{% endblock %}
