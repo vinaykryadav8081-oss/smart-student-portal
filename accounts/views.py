@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 from .forms import CustomUserCreationForm
+from students.models import Student
+from teachers.models import Teacher
 
 
 # REGISTER VIEW
@@ -15,6 +17,23 @@ def register(request):
         if form.is_valid():
 
             user = form.save()
+
+            # Create Student Profile
+            if user.role == 'student':
+
+                Student.objects.create(
+                    user=user,
+                    roll_number='TEMP001',
+                    branch='General'
+                )
+
+            # Create Teacher Profile
+            elif user.role == 'teacher':
+
+                Teacher.objects.create(
+                    user=user,
+                    subject='General'
+                )
 
             login(request, user)
 
@@ -51,12 +70,13 @@ def user_login(request):
 
         else:
 
-            return render(request,
-                          'accounts/login.html',
-                          {
-                              'error':
-                              'Invalid Username or Password'
-                          })
+            return render(
+                request,
+                'accounts/login.html',
+                {
+                    'error': 'Invalid Username or Password'
+                }
+            )
 
     return render(request, 'accounts/login.html')
 
@@ -86,5 +106,7 @@ def dashboard(request):
 @login_required
 def teacher_dashboard(request):
 
-    return render(request,
-                  'accounts/teacher_dashboard.html')
+    return render(
+        request,
+        'accounts/teacher_dashboard.html'
+    )
