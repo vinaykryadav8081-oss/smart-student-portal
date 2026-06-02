@@ -25,6 +25,9 @@ SECRET_KEY = 'django-insecure-y-mqp5=b4&q=)!*3rv^sq@^xq910t4#fcs1efcd-onnd2t_*aw
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = [
+    'https://smart-student-portal-1-267p.onrender.com',
+]
 
 
 # Application definition
