@@ -2,13 +2,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from .models import Attendance
-from accounts.models import CustomUser
+from students.models import Student
 
 
 @login_required
 def attendance_list(request):
 
-    records = Attendance.objects.all()
+    records = Attendance.objects.filter(
+        student__user=request.user
+    )
 
     return render(
         request,
@@ -22,17 +24,14 @@ def attendance_list(request):
 @login_required
 def mark_attendance(request):
 
-    students = CustomUser.objects.filter(
-        role='student'
-    )
+    students = Student.objects.all()
 
     if request.method == 'POST':
 
         student_id = request.POST.get('student')
-
         status = request.POST.get('status')
 
-        student = CustomUser.objects.get(
+        student = Student.objects.get(
             id=student_id
         )
 
